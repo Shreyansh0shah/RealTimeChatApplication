@@ -4,6 +4,7 @@ const User=require("../models/User");
 const bcrypt=require("bcrypt");
 
 // -------------------- SIGNUP --------------------
+//checking this branch
 exports.signup= async (req,res)=>{
     console.log("SIGNUP ROUTE REACHED:", req.method, req.body);
 
