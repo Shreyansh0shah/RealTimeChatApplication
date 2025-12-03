@@ -21,5 +21,5 @@ module.exports = (req, res, next) => {
   // attach AI result to request
   req.aiResult = analysis;
 
-  next(); 
+  next();
 };
