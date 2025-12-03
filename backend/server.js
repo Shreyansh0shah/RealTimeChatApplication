@@ -9,6 +9,8 @@ const {Server}=require("socket.io");
 const cors = require("cors"); //
 const socketIndex = require("./socket/index");
 
+
+
 // Initialize express
 const app=express();
 // JSON middleware
@@ -47,16 +49,14 @@ app.get("/",(req,res)=>{
 //Routes
 app.use("/api/auth", require("./routes/authRoutes"));
 app.use("/api/chat", require("./routes/chatRoutes"));
+app.use("/api/room", require("./routes/roomRoutes"));
+app.use("/api/ai", require("./routes/aiRoutes"));
+
 
 // 🟩 ADD: 404 Handler – place AFTER all routes
 app.use((req,res)=>{
     res.status(404).json({message:"Route not found"});
 })
-
-
-// // Socket Server
-// const socketServer=require("./socket/socketServer");
-// socketServer(io);
 
 
 // -------------------- 404 ERROR HANDLER --------------------

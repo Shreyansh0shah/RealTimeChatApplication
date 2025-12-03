@@ -16,7 +16,8 @@ exports.sendMessage=async(req,res)=>{
         const newMessage=new Message({
             senderId,
             receiverId,
-            messageText
+            messageText,
+            aiResult: req.aiResult // Include AI result in message
         });
         //Save to database
         await newMessage.save();

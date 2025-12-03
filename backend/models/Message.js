@@ -21,7 +21,12 @@ const messageSchema=new mongoose.Schema(
              type: String,
               enum: ["sent", "delivered", "read"],
              default: "sent"
-        }
+        },
+        aiResult: {
+              toxic: { type: Boolean, default: false },
+              urgency: { type: String, default: "normal" }
+}
+
 
     },
     {timestamps:true}

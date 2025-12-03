@@ -1,6 +1,6 @@
 const express=require("express");
 const router=express.Router();
-
+const aiMiddleware = require("../middleware/aiMiddleware");
 const authMiddleware=require ("../middleware/autMiddleware");
 const {sendMessage,getMessage, markMessageDelivered,
   markMessageRead}=require("../controllers/chatcontroller")
@@ -16,7 +16,7 @@ router.get("/test",(req,res)=>{
 // @route   POST /api/chat/send
 // @desc    Send a message
 // @access  Private (Requires Token)
-router.post("/send",authMiddleware,sendMessage);
+router.post("/send",authMiddleware,aiMiddleware,sendMessage);
 
 // @route   GET /api/chat/history/:userId
 // @desc    Get chat history with selected user
