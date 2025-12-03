@@ -1,48 +1,45 @@
 // socket/deliveryEvents.js
-const Message = require("../models/Message");
+const { redisClient } = require("../config/redis");
 
-module.exports = (io, onlineUsers) => {
+module.exports = (io) => {
   io.on("connection", (socket) => {
-    // Receiver tells server: message is delivered to my device (displayed in chat)
-    socket.on("message-delivered", async ({ messageId, receiverId, senderId }) => {
+    // data: { messageId, senderId, receiverId, timestamp? }
+    socket.on("message-delivered", async (data) => {
       try {
-        if (!messageId) return;
+        const { messageId, senderId, receiverId, timestamp } = data;
+        if (!senderId || !receiverId || !messageId) return;
 
-        // Update DB
-        const updated = await Message.findByIdAndUpdate(messageId, { status: "delivered" }, { new: true });
-
-        // Emit update back to sender (if online)
-        const senderSocketId = onlineUsers[senderId];
+        // Notify original sender that message was delivered to recipient's device
+        const senderSocketId = await redisClient.hget("onlineUsers", senderId);
         if (senderSocketId) {
-          io.to(senderSocketId).emit("message-delivered", { messageId, receiverId });
-        } else {
-          // sender offline - optionally store or send notification later
-          console.log("Sender offline for delivered event:", senderId);
+          io.to(senderSocketId).emit("message-delivered-ack", {
+            messageId,
+            receiverId,
+            timestamp: timestamp || Date.now(),
+          });
         }
-
-        console.log("Delivery event processed:", messageId);
       } catch (err) {
-        console.error("deliveryEvents: message-delivered error:", err);
+        console.error("message-delivered error:", err);
       }
     });
 
-    // Receiver tells server: message has been read/opened by me
-    socket.on("message-read", async ({ messageId, receiverId, senderId }) => {
+    // data: { messageId, senderId, receiverId, timestamp? }
+    socket.on("message-read", async (data) => {
       try {
-        if (!messageId) return;
+        const { messageId, senderId, receiverId, timestamp } = data;
+        if (!senderId || !receiverId || !messageId) return;
 
-        const updated = await Message.findByIdAndUpdate(messageId, { status: "read" }, { new: true });
-
-        const senderSocketId = onlineUsers[senderId];
+        // Notify original sender that message was read
+        const senderSocketId = await redisClient.hget("onlineUsers", senderId);
         if (senderSocketId) {
-          io.to(senderSocketId).emit("message-read", { messageId, receiverId });
-        } else {
-          console.log("Sender offline for read event:", senderId);
+          io.to(senderSocketId).emit("message-read-ack", {
+            messageId,
+            receiverId,
+            timestamp: timestamp || Date.now(),
+          });
         }
-
-        console.log("Read event processed:", messageId);
       } catch (err) {
-        console.error("deliveryEvents: message-read error:", err);
+        console.error("message-read error:", err);
       }
     });
   });

@@ -1,24 +1,43 @@
 // socket/userEvents.js
-module.exports = (io, onlineUsers) => {
+const { redisClient } = require("../config/redis");
+
+module.exports = (io) => {
   io.on("connection", (socket) => {
     console.log("user connected", socket.id);
 
-    socket.on("add-user", (userId) => {
+    // ADD USER
+    socket.on("add-user", async (userId) => {
       if (!userId) return;
-      onlineUsers[userId] = socket.id;
-        console.log("USER ADDED MAP:", onlineUsers);  
-      io.emit("online-users", Object.keys(onlineUsers));
+
+      // Store user in Redis
+      await redisClient.hset("onlineUsers", userId, socket.id);
+
+      // Fetch updated list
+      const users = await redisClient.hkeys("onlineUsers");
+
+      // Notify everyone
+      io.emit("online-users", users);
     });
 
-    socket.on("disconnect", () => {
-         console.log("SOCKET DISCONNECTED:", socket.id);
-      for (const [uid, sid] of Object.entries(onlineUsers)) {
+    // DISCONNECT USER
+    socket.on("disconnect", async () => {
+      console.log("SOCKET DISCONNECTED:", socket.id);
+
+      // Get all users
+      const allUsers = await redisClient.hgetall("onlineUsers");
+
+      // Find which user had this socket id
+      for (const [uid, sid] of Object.entries(allUsers)) {
         if (sid === socket.id) {
-          delete onlineUsers[uid];
+          await redisClient.hdel("onlineUsers", uid);
           break;
         }
       }
-      io.emit("online-users", Object.keys(onlineUsers));
+
+      // Emit updated list
+      const users = await redisClient.hkeys("onlineUsers");
+      io.emit("online-users", users);
+
       console.log("user disconnected", socket.id);
     });
   });

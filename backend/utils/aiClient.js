@@ -10,6 +10,7 @@ exports.analyzeMessage = (text) => {
 
   if (
     lower.includes("abuse") ||
+    lower.includes("bad word") ||
     lower.includes("insult") ||
     lower.includes("offensive") ||
     lower.includes("rude")

@@ -8,6 +8,9 @@ const express=require("express");
 const {Server}=require("socket.io");
 const cors = require("cors"); //
 const socketIndex = require("./socket/index");
+const { createAdapter } = require("@socket.io/redis-adapter");
+const { pubClient, subClient } = require("./config/redis");
+
 
 
 
@@ -31,6 +34,7 @@ const io = new Server(server,{
         origin:"*"
     }
 });
+io.adapter(createAdapter(pubClient, subClient));
 
 // Attach modular socket handlers
 socketIndex(io);
