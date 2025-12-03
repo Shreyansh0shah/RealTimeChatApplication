@@ -7,7 +7,7 @@ const http=require("http");
 const express=require("express");
 const {Server}=require("socket.io");
 const cors = require("cors"); //
-
+const socketIndex = require("./socket/index");
 
 // Initialize app
 const app=express();

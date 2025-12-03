@@ -1,7 +1,7 @@
 //const router=require('express').Router();
 const jwt=require("jsonwebtoken");
 const User=require("../models/User");
-const bcrypt=require("bcrypt");
+const bcrypt=require("bcryptjs");
 
 // -------------------- SIGNUP --------------------
 //checking this branch

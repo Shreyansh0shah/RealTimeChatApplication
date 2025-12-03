@@ -70,3 +70,44 @@ exports.getMessage=async(req,res)=>{
 
     }
 };
+
+// ---- New functions for delivery receipts ----
+exports.markMessageDelivered = async (req, res) => {
+  try {
+    const { messageId } = req.body;
+    if (!messageId) return res.status(400).json({ message: "messageId required" });
+
+    const updated = await Message.findByIdAndUpdate(
+      messageId,
+      { status: "delivered" },
+      { new: true }
+    );
+
+    if (!updated) return res.status(404).json({ message: "Message not found" });
+
+    console.log("Message marked delivered:", updated._id);
+    return res.json({ message: "Marked delivered", data: updated });
+  } catch (error) {
+    return res.status(500).json({ message: "Failed to mark delivered", error: error.message });
+  }
+};
+
+exports.markMessageRead = async (req, res) => {
+  try {
+    const { messageId } = req.body;
+    if (!messageId) return res.status(400).json({ message: "messageId required" });
+
+    const updated = await Message.findByIdAndUpdate(
+      messageId,
+      { status: "read" },
+      { new: true }
+    );
+
+    if (!updated) return res.status(404).json({ message: "Message not found" });
+
+    console.log("Message marked read:", updated._id);
+    return res.json({ message: "Marked read", data: updated });
+  } catch (error) {
+    return res.status(500).json({ message: "Failed to mark read", error: error.message });
+  }
+};

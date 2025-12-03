@@ -2,7 +2,8 @@ const express=require("express");
 const router=express.Router();
 
 const authMiddleware=require ("../middleware/autMiddleware");
-const {sendMessage,getMessage}=require("../controllers/chatcontroller")
+const {sendMessage,getMessage, markMessageDelivered,
+  markMessageRead}=require("../controllers/chatcontroller")
 
 // @route   GET /api/chat/test
 // @desc    Test chat route
@@ -21,6 +22,11 @@ router.post("/send",authMiddleware,sendMessage);
 // @desc    Get chat history with selected user
 // @access  Private (Requires Token)
 router.get("/history/:userId",authMiddleware,getMessage);
+
+
+// New: Manual HTTP endpoints (also used if needed)
+router.patch("/status/delivered", authMiddleware, markMessageDelivered);
+router.patch("/status/read", authMiddleware, markMessageRead);
 
 module.exports =router;
 
