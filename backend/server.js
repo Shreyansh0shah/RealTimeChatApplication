@@ -9,9 +9,10 @@ const {Server}=require("socket.io");
 const cors = require("cors"); //
 const socketIndex = require("./socket/index");
 
-// Initialize app
+// Initialize express
 const app=express();
-
+// JSON middleware
+app.use(express.json());
 // ADD: Enable CORS
 app.use(cors());
 
@@ -21,6 +22,7 @@ connectDB();
 
 // Create HTTP server
 const server=http.createServer(app);
+
 // Create Socket.IO server
 const io = new Server(server,{
     cors:{
@@ -28,9 +30,11 @@ const io = new Server(server,{
     }
 });
 
+// Attach modular socket handlers
+socketIndex(io);
 
-// JSON middleware
-app.use(express.json());
+
+
 
 //require('./config/dbconfig');
 const PORT=process.env.PORT || 5001;
@@ -50,9 +54,9 @@ app.use((req,res)=>{
 })
 
 
-// Socket Server
-const socketServer=require("./socket/socketServer");
-socketServer(io);
+// // Socket Server
+// const socketServer=require("./socket/socketServer");
+// socketServer(io);
 
 
 // -------------------- 404 ERROR HANDLER --------------------

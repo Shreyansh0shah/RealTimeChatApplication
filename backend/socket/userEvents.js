@@ -6,11 +6,12 @@ module.exports = (io, onlineUsers) => {
     socket.on("add-user", (userId) => {
       if (!userId) return;
       onlineUsers[userId] = socket.id;
-      console.log("user added:", userId, "->", socket.id);
+        console.log("USER ADDED MAP:", onlineUsers);  
       io.emit("online-users", Object.keys(onlineUsers));
     });
 
     socket.on("disconnect", () => {
+         console.log("SOCKET DISCONNECTED:", socket.id);
       for (const [uid, sid] of Object.entries(onlineUsers)) {
         if (sid === socket.id) {
           delete onlineUsers[uid];
