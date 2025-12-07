@@ -1,21 +1,35 @@
-const router=require('express').Router();
-const {signup,login}=require("../controllers/authcontroller");
+console.log("AUTH ROUTES FILE LOADED!");
 
-// @route   POST /api/auth/signup
-// @desc    Register a new user
-// @access  Public
-router.post("/login",login);
+const router = require("express").Router();
+const { signup, login } = require("../controllers/authcontroller");
 
-// @route   POST /api/auth/login
-// @desc    Login user & return token
-// @access  Public
-router.post("/signup",signup);
+const { authLimiter } = require("../middleware/rateLimiter");
+const { body } = require("express-validator");
+const validateRequest = require("../middleware/validateRequest");
 
-// @route   GET /api/auth/test
-// @desc    Test authentication route
-// @access  Public
-router.get("/test",(req,res)=>{
-    res.send("Auth route working!");
+// ------------------ SIGNUP ROUTE ------------------
+router.post(
+  "/signup",
+  authLimiter,
+  body("email").isEmail(),
+  body("password").isLength({ min: 8 }),
+  validateRequest,
+  signup
+);
+
+// ------------------ LOGIN ROUTE ------------------
+router.post(
+  "/login",
+  authLimiter,
+  body("email").isEmail(),
+  body("password").exists(),
+  validateRequest,
+  login
+);
+
+// ------------------ TEST ROUTE ------------------
+router.get("/test", (req, res) => {
+  res.send("Auth route working!");
 });
 
-module.exports =router;
+module.exports = router;

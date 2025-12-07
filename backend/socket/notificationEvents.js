@@ -1,15 +1,28 @@
-module.exports = (io, onlineUsers) => {
-  console.log("notificationEvents loaded");
+const sendEmail = require("../utils/emailService");
+
+const User = require("../models/User");
+
+module.exports = (io) => {
 
   io.on("connection", (socket) => {
-    socket.on("send-notification", ({ userId, message }) => {
-      const receiverSocket = onlineUsers[userId];
+     // Triggered when someone sends a message to an offline user
+    socket.on("send-notification", async ({ receiverId,senderName, messageText }) => {
+      try{
+      const receiver = await User.findById(receiverId);
 
-      if (receiverSocket) {
-        io.to(receiverSocket).emit("new-notification", message);
+       if (!receiver || !receiver.email) {
+          console.log("Receiver email not found");
+          return;
+        }
+        const subject = `New message from ${senderName}`;
+        const text = `Message: ${messageText}`;
+
+        await sendEmail(receiver.email, subject, text);
       }
-
-      console.log("Notification event processed:", message);
+        
+        catch(err){
+      console.log("Notification offline user error:", err);
+    }
     });
   });
 };

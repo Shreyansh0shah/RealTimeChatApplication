@@ -1,13 +1,14 @@
 // socket/messageEvents.js
 const { redisClient } = require("../config/redis");
 
+
 module.exports = (io) => {
   io.on("connection", (socket) => {
     // data: { senderId, receiverId, roomId?, message }
     socket.on("send-message", async (data) => {
       try {
         const { senderId, receiverId, roomId, message } = data;
-        if (roomId) {
+         if (roomId) {
           // Room message: broadcast to that room (server cluster-aware via redis adapter)
           io.to(roomId).emit("room-message", {
             roomId,
@@ -32,6 +33,16 @@ module.exports = (io) => {
         }
 
         const receiverSocketId = await redisClient.hget("onlineUsers", receiverId);
+        
+        // If user offline → trigger email
+        if (!receiverSocketId) {
+          io.emit("notify-offline-user", {
+            receiverId,
+            senderName: senderId,    // you can fetch actual name from DB if needed
+            messageText: messageText
+       });
+}
+
 
         if (receiverSocketId) {
           // Send message directly to receiver's socket
