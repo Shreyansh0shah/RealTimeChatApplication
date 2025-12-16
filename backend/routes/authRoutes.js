@@ -1,8 +1,16 @@
 console.log("AUTH ROUTES FILE LOADED!");
 
 const router = require("express").Router();
-const { signup, login } = require("../controllers/authcontroller");
 
+// 🔹 CONTROLLER (NOTE: filename case-sensitive on Mac/Linux)
+const {
+  signup,
+  login,
+  refresh,
+  logout
+} = require("../controllers/authcontroller");
+
+// 🔹 RATE LIMITER & VALIDATION (UNCHANGED)
 const { authLimiter } = require("../middleware/rateLimiter");
 const { body } = require("express-validator");
 const validateRequest = require("../middleware/validateRequest");
@@ -26,6 +34,12 @@ router.post(
   validateRequest,
   login
 );
+
+// ------------------ REFRESH TOKEN ROUTE (NEW - DAY 24) ------------------
+router.post("/refresh", refresh);
+
+// ------------------ LOGOUT ROUTE (NEW - DAY 24) ------------------
+router.post("/logout", logout);
 
 // ------------------ TEST ROUTE ------------------
 router.get("/test", (req, res) => {

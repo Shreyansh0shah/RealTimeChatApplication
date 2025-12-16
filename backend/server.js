@@ -13,6 +13,9 @@ const { pubClient, subClient } = require("./config/redis");
 const helmet = require("helmet");
 const mongoSanitize = require("express-mongo-sanitize");
 const xss = require("xss-clean");
+const cookieParser = require("cookie-parser");
+
+
 
 const applySecurityHeaders = require("./middleware/securityHeaders");
 const { globalLimiter } = require("./middleware/rateLimiter");
@@ -23,6 +26,7 @@ const app = express();
 
 // Middleware
 app.use(express.json());
+app.use(cookieParser()); 
 app.use(cors());
 app.use(helmet());
 app.use(mongoSanitize());
@@ -58,6 +62,7 @@ app.use("/api/auth", require("./routes/authRoutes"));
 app.use("/api/chat", require("./routes/chatRoutes"));
 app.use("/api/room", require("./routes/roomRoutes"));
 app.use("/api/ai", require("./routes/aiRoutes"));
+app.use("/api/notifications", require("./routes/notificationRoutes"));
 
 // Error handler
 app.use(errorHandler);
@@ -72,5 +77,5 @@ app.use((req, res) => {
 
 // Start server
 server.listen(PORT, () => {
-  console.log(`Server is running at port ${PORT}`);
+  console.log(`Cluster instance started on port ${PORT}`);
 });

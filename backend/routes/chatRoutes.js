@@ -1,7 +1,7 @@
 const express=require("express");
 const router=express.Router();
 const aiMiddleware = require("../middleware/aiMiddleware");
-const authMiddleware=require ("../middleware/autMiddleware");
+const authMiddleware=require ("../middleware/authMiddleware");
 const {sendMessage,getMessage, markMessageDelivered,
   markMessageRead}=require("../controllers/chatcontroller")
 

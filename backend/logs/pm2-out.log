@@ -1,0 +1,48 @@
+2025-12-15T23:51:42: [dotenv@17.2.3] injecting env (4) from .env -- tip: ✅ audit secrets and track compliance: https://dotenvx.com/ops
+2025-12-15T23:51:42: [dotenv@17.2.3] injecting env (4) from .env -- tip: ⚙️  override existing env vars with { override: true }
+2025-12-15T23:51:42: [dotenv@17.2.3] injecting env (4) from .env -- tip: 🛠️  run anywhere with `dotenvx run -- yourcommand`
+2025-12-15T23:51:42: [dotenv@17.2.3] injecting env (4) from .env -- tip: 👥 sync secrets across teammates & machines: https://dotenvx.com/ops
+2025-12-15T23:51:42: [dotenv@17.2.3] injecting env (4) from .env -- tip: ⚙️  enable debug logging with { debug: true }
+2025-12-15T23:51:42: [dotenv@17.2.3] injecting env (4) from .env -- tip: ⚙️  write to custom object with { processEnv: myObject }
+2025-12-15T23:51:42: [dotenv@17.2.3] injecting env (4) from .env -- tip: ✅ audit secrets and track compliance: https://dotenvx.com/ops
+2025-12-15T23:51:42: [dotenv@17.2.3] injecting env (4) from .env -- tip: 🛠️  run anywhere with `dotenvx run -- yourcommand`
+2025-12-15T23:51:42: All socket event modules loaded.
+2025-12-15T23:51:42: AUTH ROUTES FILE LOADED!
+2025-12-15T23:51:42: All socket event modules loaded.
+2025-12-15T23:51:42: AUTH ROUTES FILE LOADED!
+2025-12-15T23:51:42: Cluster instance started on port 5001
+2025-12-15T23:51:42: All socket event modules loaded.
+2025-12-15T23:51:42: AUTH ROUTES FILE LOADED!
+2025-12-15T23:51:42: All socket event modules loaded.
+2025-12-15T23:51:42: AUTH ROUTES FILE LOADED!
+2025-12-15T23:51:43: Redis connected successfully!
+2025-12-15T23:51:43: Cluster instance started on port 5001
+2025-12-15T23:51:43: Redis connected successfully!
+2025-12-15T23:51:42: Cluster instance started on port 5001
+2025-12-15T23:51:42: All socket event modules loaded.
+2025-12-15T23:51:42: AUTH ROUTES FILE LOADED!
+2025-12-15T23:51:42: Cluster instance started on port 5001
+2025-12-15T23:51:43: Redis connected successfully!
+2025-12-15T23:51:43: Redis connected successfully!
+2025-12-15T23:51:43: Cluster instance started on port 5001
+2025-12-15T23:51:43: Redis connected successfully!
+2025-12-15T23:51:43: All socket event modules loaded.
+2025-12-15T23:51:43: AUTH ROUTES FILE LOADED!
+2025-12-15T23:51:43: All socket event modules loaded.
+2025-12-15T23:51:43: AUTH ROUTES FILE LOADED!
+2025-12-15T23:51:43: Cluster instance started on port 5001
+2025-12-15T23:51:43: Cluster instance started on port 5001
+2025-12-15T23:51:43: Redis connected successfully!
+2025-12-15T23:51:43: Redis connected successfully!
+2025-12-15T23:51:43: All socket event modules loaded.
+2025-12-15T23:51:43: AUTH ROUTES FILE LOADED!
+2025-12-15T23:51:43: Cluster instance started on port 5001
+2025-12-15T23:51:43: Redis connected successfully!
+2025-12-15T23:51:43: Mongoose connected succesfully
+2025-12-15T23:51:43: Mongoose connected succesfully
+2025-12-15T23:51:43: Mongoose connected succesfully
+2025-12-15T23:51:43: Mongoose connected succesfully
+2025-12-15T23:51:43: Mongoose connected succesfully
+2025-12-15T23:51:44: Mongoose connected succesfully
+2025-12-15T23:51:45: Mongoose connected succesfully
+2025-12-15T23:51:46: Mongoose connected succesfully
